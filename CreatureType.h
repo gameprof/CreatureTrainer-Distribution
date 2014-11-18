@@ -20,10 +20,10 @@ class CreatureType {
 private:
     int type; // Creature's type (first letter of species name)
     int healthMaxBase;	// - The health for a L0 version of this creature
-    int healthMaxPerLevel; // - The increase in healthMax for each increase in level
-    int healthRestIncrease;// (POSSIBLE) the amount of health that regens for every turn this creature is not used
+    int healthMaxPerLevel; // - The increase in healthMax for each increase in level (REACH)
+    int healthRestIncrease;// - The amount of health that regens for every turn rest() is called
     int attackBase; // The attack strength for a L0 version
-    int attackPerLevel; // The increase in attack strength per level
+    int attackPerLevel; // The increase in attack strength per level (REACH)
     int elementalAttackType; // The elemental type of the attack
     int elementalWeakness; // The elemental type that will do double damage to this creature
     int elementalStrength; // The elemental type that will do half damage to this creature
@@ -31,7 +31,7 @@ private:
     
     
 public:
-    const static int    NUM_TYPES = 26;
+    const static int    NUM_TYPES = 26; //One for each letter of alphabet
     const static int    NUM_ELEMENTS = 8;
     const static string CREATURE_NAMES[];
     const static string ELEMENT_NAMES[];
@@ -60,17 +60,22 @@ public:
     /**
      * Requires: Nothing.
      * Modifies: Nothing.
-     * Effects:  Default contructor.
+     * Effects:  Default contructor that does nothing.
      */
     CreatureType();
     
     /**
-     * Requires: cType must be in the range [0…NUM_TYPES].
+     * Requires: cType must be in the range [0, NUM_TYPES).
      * Modifies: Nothing.
-     * Effects:  Default contructor.
+     * Effects:  Creates a creatureType with random stats
      */
     CreatureType(int cType);
     
+    /**
+     * Requires: Nothing.
+     * Modifies: Nothing.
+     * Effects:  Randomizes stats for all creatues in TYPES vector
+     */
     static void randomizeTypes();
     
     
@@ -87,7 +92,7 @@ public:
     /**
      * Requires: Nothing.
      * Modifies: Nothing.
-     * Effects:  Returns the name of the CreatureType.
+     * Effects:  Returns the name of the element of this CreatureType.
      */
     // Note: int pad below has a default value of ELEM_NAME_LENGTH.
     //       This is called a "default parameter"
@@ -101,157 +106,147 @@ public:
      */
     void randomizeType();
     
-//    /**
-//     * Requires: cType must be in the range [0…NUM_TYPES].
-//     * Modifies: CreatureType data.
-//     * Effects:  Randomizes the various stats for this CreatureType.
-//     */
-//    static Creature creatureFactory(int cType);
-    
-    
     /**
      * Requires: Nothing.
      * Modifies: Nothing.
-     * Effects:  Gets and returns type.
+     * Effects:  returns type.
      */
     int getType();
     
     
     /**
-     * Requires: Nothing.
-     * Modifies: Sets type.
-     * Effects:  Nothing.
+     * Requires: num is in the range [0, NUM_TYPES)
+     * Modifies: type
+     * Effects:  Sets type.
      */
-    void setType(int);
+    void setType(int num);
     
     
     /**
      * Requires: Nothing.
      * Modifies: Nothing.
-     * Effects:  Gets and returns healthMaxBase.
+     * Effects:  returns healthMaxBase.
      */
     int getHealthMaxBase();
     
     
     /**
-     * Requires: Nothing.
-     * Modifies: Sets healthMaxBase.
-     * Effects:  Nothing.
+     * Requires: num is in the range [healthMaxBaseMin, healthMaxBaseMax]
+     * Modifies: healthMaxBase
+     * Effects:  Sets healthMaxBase.
      */
-    void setHealthMaxBase(int);
-    
+    void setHealthMaxBase(int num);
     
     /**
      * Requires: Nothing.
      * Modifies: Nothing.
-     * Effects:  Gets and returns healthMaxPerLevel.
-     */
-    int getHealthMaxPerLevel();
-    
-    
-    /**
-     * Requires: Nothing.
-     * Modifies: Sets healthMaxPerLevel.
-     * Effects:  Nothing.
-     */
-    void setHealthMaxPerLevel(int);
-    
-    
-    /**
-     * Requires: Nothing.
-     * Modifies: Nothing.
-     * Effects:  Gets and returns healthRestIncrease.
+     * Effects:  returns healthRestIncrease.
      */
     int getHealthRestIncrease();
     
     
     /**
-     * Requires: Nothing.
-     * Modifies: Sets healthRestIncrease.
-     * Effects:  Nothing.
+     * Requires: num is in the range [healthRestIncreaseMin, healthRestIncreaseMax]
+     * Modifies: healthRestIncrease
+     * Effects:  Sets healthRestIncrease
      */
-    void setHealthRestIncrease(int);
+    void setHealthRestIncrease(int num);
     
     
     /**
      * Requires: Nothing.
      * Modifies: Nothing.
-     * Effects:  Gets and returns attackBase.
+     * Effects:  returns attackBase.
      */
     int getAttackBase();
     
     
     /**
-     * Requires: Nothing.
-     * Modifies: Sets attackBase.
-     * Effects:  Nothing.
+     * Requires: num is in the range [attackBaseMin, attackBaseMax]]
+     * Modifies: attackBase
+     * Effects:  Sets attackBase.
      */
-    void setAttackBase(int);
+    void setAttackBase(int num);
     
     
     /**
      * Requires: Nothing.
      * Modifies: Nothing.
-     * Effects:  Gets and returns attackPerLevel.
-     */
-    int getAttackPerLevel();
-    
-    
-    /**
-     * Requires: Nothing.
-     * Modifies: Sets attackPerLevel.
-     * Effects:  Nothing.
-     */
-    void setAttackPerLevel(int);
-    
-    
-    /**
-     * Requires: Nothing.
-     * Modifies: Nothing.
-     * Effects:  Gets and returns elementalAttackType.
+     * Effects:  returns elementalAttackType.
      */
     int getElementalAttackType();
     
     
     /**
-     * Requires: Nothing.
-     * Modifies: Sets elementalAttackType.
-     * Effects:  Nothing.
+     * Requires: num is in the range [0, NUM_ELEMENTS).
+     * Modifies: elementalAttackType
+     * Effects:  Sets elementalAttackType.
      */
-    void setElementalAttackType(int);
+    void setElementalAttackType(int num);
     
     
     /**
      * Requires: Nothing.
      * Modifies: Nothing.
-     * Effects:  Gets and returns elementalWeakness.
+     * Effects:  returns elementalWeakness.
      */
     int getElementalWeakness();
     
     
     /**
-     * Requires: Nothing.
-     * Modifies: Sets elementalWeakness.
-     * Effects:  Nothing.
+     * Requires: num is in the range [0, NUM_ELEMENTS).
+     * Modifies: elementalWeakness
+     * Effects:  Sets elementalWeakness.
      */
-    void setElementalWeakness(int);
+    void setElementalWeakness(int num);
     
     
     /**
      * Requires: Nothing.
      * Modifies: Nothing.
-     * Effects:  Gets and returns elementalStrength.
+     * Effects:  returns elementalStrength.
      */
     int getElementalStrength();
     
     
     /**
-     * Requires: Nothing.
-     * Modifies: Sets elementalStrength.
-     * Effects:  Nothing.
+     * Requires: num is in the range [0, NUM_ELEMENTS).
+     * Modifies: elementalStrength
+     * Effects:  Sets elementalStrength.
      */
     void setElementalStrength(int);
     
+//--------------Reach----------------
+    /**
+     * Requires: Nothing.
+     * Modifies: Nothing.
+     * Effects:  returns healthMaxPerLevel.
+     */
+    int getHealthMaxPerLevel();
+    
+    
+    /**
+     * Requires: num is in the range [healthMaxPerLevelMin, healthMaxPerLevelMax]
+     * Modifies: healthMaxPerLevel
+     * Effects:  Sets healthMaxPerLevel.
+     */
+    void setHealthMaxPerLevel(int num);
+    
+
+    /**
+     * Requires: Nothing.
+     * Modifies: Nothing.
+     * Effects:  returns attackPerLevel.
+     */
+    int getAttackPerLevel();
+    
+    
+    /**
+     * Requires: num is in the range [attackPerLevelMin, attackPerLevelMax]
+     * Modifies: attackPerLevel
+     * Effects:  Sets attackPerLevel.
+     */
+    void setAttackPerLevel(int num);
     
 };
 

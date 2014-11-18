@@ -26,10 +26,7 @@ int main(int argc, const char * argv[]) {
     
     stringstream ss;
     PrintHelper::printIntro(ss);
-
-//    cout << ss.str();    // This line will be removed!
-
-
+    
     Trainer player;
 
     // Sets the random number seed. This will be set differently for the various dungeons.
@@ -49,12 +46,9 @@ int main(int argc, const char * argv[]) {
     //   |*Horse____# 012/123| Elephant   123/123| Aardvark__ 233/300| Echidna    234/345
     trainerParty.printStatus(ss);
     ss << "\n\n";
-    
+
+    //Explains the possible actions in battle
     PrintHelper::printOptions(ss);
-    
-//    cout << ss.str();
-//    // tells 'a' to attack 's' to swap
-//    PrintHelper::printOptions(ss);
 
     // Battle until all Creatures in the party faint.
     int battlesWon = -1;
@@ -62,7 +56,7 @@ int main(int argc, const char * argv[]) {
     while (trainerParty.alive()) {
         battlesWon++;
         // Create the situation
-        runBattle(player, trainerParty, ss);
+        runBattle(player, trainerParty, ss, battlesWon);
     }
     
     // We only get here if the entire party is dead

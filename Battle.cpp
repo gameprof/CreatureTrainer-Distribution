@@ -10,27 +10,23 @@
 
 using namespace std;
 
-//const int MAX_PARTY_SIZE = 4;
-//const int MAX_TYPE_SIZE = 9; //longest creature name
-
-
-
-
 //to run a battle
 //we need a trainer, 
 //their party, 
-//the creature they are currently using to battle (carries over from previous battles),
-//and an enemy creature
-void runBattle(Trainer &player1, Party &party, stringstream& ss){
-    //the battle is a series of informative outputs of situations
+//the situation stream,
+//and their win count
+  //the battle is a series of informative outputs of situations
+void runBattle(Trainer &player1, Party &party, stringstream& ss, int winCount){
+  
     
-    // WHAT SHOULD THE ENEMIES BE??
+    // WHAT SHOULD THE ENEMIES BE?? This generates an enemy
     int tNum = EECSRandom::range(0,CreatureType::NUM_TYPES);
     Creature enemy = Creature::factory( tNum );
     
     //This simply introduces the enemy. The trainer can make the first move.
     PrintHelper::printHR(ss);
-    ss << "\nA new challenger approaches…\n";
+    PrintHelper::printWinCount(winCount, ss);
+    ss << "\nA new challenger approaches...\n";
     ss << "It's an enemy " << enemy.getTypeName(0) << "!\n\n";
     
     string playerMove;
@@ -65,7 +61,7 @@ void runBattle(Trainer &player1, Party &party, stringstream& ss){
                     int oldIndex = party.getActiveCreatureNum();
                     int swapIndex = playerMove[1] - '1'; //because atoi won't work
                     if (swapIndex >= Party::MAX_PARTY_SIZE || swapIndex < 0) {
-                        printError(ss);
+                        PrintHelper::printError(ss);
                     } else {
                         party.setActiveCreatureNum(swapIndex);
                         if (party.getActiveCreatureNum() == oldIndex) {
@@ -88,7 +84,7 @@ void runBattle(Trainer &player1, Party &party, stringstream& ss){
                 break;
                 
             default:
-                printError(ss);
+                PrintHelper::printError(ss);
         }
         
         // Everyone in the party who is not the active creature rest()s
@@ -106,6 +102,7 @@ void runBattle(Trainer &player1, Party &party, stringstream& ss){
         
     }
     
+    //If you defeat an enemy, you regenerate soe health
     if (enemy.getHealthCurr() == 0) {
         ss << "\nYou have defeated the Enemy ";
         ss << enemy.getTypeName(0) << "! Congratulations!\n";
@@ -114,69 +111,8 @@ void runBattle(Trainer &player1, Party &party, stringstream& ss){
         party.restInactive();
     }
 }
-//
-//    string situation = starterSituation(enemy);
-//    //trainer attacks first
-//    PrintHelper::printOptions();
-//    //While none have fainted, loop through the battle
-//    while (party[0].getHealthCurr() > 0 && party[1].getHealthCurr() > 0 &&
-//        party[2].getHealthCurr() > 0 && party[3].getHealthCurr() > 0){
-//        //print some situation
-//        situation = updateSituation(enemy);
-//        stringstream ss;
-//        ss << situation;
-//        PrintHelper::printTeamStatus(party, currentCreatureIndex, ss);
-//        //pass that situation in trainer
-//        string playerMove = player1.makeMove(situation);
-//        //or for testing, 
-//        //string playerMove;
-//        //cin >> playerMove;
-//
-//        //enemy's name
-//        string enemyName = "enemy " + CreatureType::CREATURE_NAMES[enemy.getType()];
-//
-//        //switch based on move
-//        int partyIndex;
-//        switch (playerMove[0]){
-//        case 'a':
-//            doPlayerAttack(enemy);
-//            PrintHelper::printPlayerAttack(party[currentCreatureIndex], enemyName);
-//            break;
-//        case 's':
-//            partyIndex = playerMove[1] - '0'; //because atoi won't work
-//            if (partyIndex < MAX_PARTY_SIZE && partyIndex >= 0){
-//                currentCreatureIndex = partyIndex;
-//            }
-//            else{
-//                printError();
-//            }
-//            break;
-//        default:
-//            printError();
-//        }
-//    }
 
 
-
-void printError(stringstream& ss) {
-    ss << "ERROR: INVALID MOVE" << endl;
-    ss << "You lost your turn." << endl;
-}
-
-/*
-|*Horse____# 012/123| Elephant   123/123| Aardvark__ 233/300| Echidna    234/345
-|Enemy A________# Level _|
-*/
-
-
-
-
-
-/*
-Horse_____ attacks enemy Elephant__ with Fire____ for 3__ damage and it faints.
-Horse attacks enemy Elephant with Fire for 32 damage.
-Enemy Elephant attacks Horse with Ice for 16 damage.
-*/
 void creatureAttack(Creature& attacker, Creature& defender, bool isPlayer, stringstream& ss) {
     int aStrength = attacker.getAttackStrength();
     int aElement = attacker.getAttackElement();
@@ -232,14 +168,3 @@ void creatureRest(Creature& rester, bool isPlayer, stringstream& ss) {
     
     rester.rest();
 }
-
-
-//situation
-string starterSituation(Creature& enemy) {
-    return "Enemy " + CreatureType::CREATURE_NAMES[enemy.getType()] + " has begun battle with you!";
-}
-
-string updateSituation(Creature& enemy) {
-    return "";
-}
-

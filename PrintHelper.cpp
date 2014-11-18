@@ -8,7 +8,7 @@ void PrintHelper::printIntro(stringstream & ss) {
     ss << "The challenge is one that cannot be faced alone. In order to succeed, \n";
     ss << "you must work together with your own team of creatures.\n\n";
     
-    /* for implementation 2
+    /* for implementation 2 (reach)
      cout << "\n\nTo help you in your progress toward becoming an Ace Trainer,\n\n";
      cout << "you may battle in two arenas:\n\n";
      cout << "The \"STOMPING GROUND\" is a great place to perform multiple battles against\n\n";
@@ -19,14 +19,6 @@ void PrintHelper::printIntro(stringstream & ss) {
      
      cout << "\n\nChoose your arena.\n\n";
      cout << "Enter \"STOMP\" for The \"STOMPING GROUND\" or \"GAUNT\" for The \"GAUNTLET\":\n\n";
-     
-     
-     cin >> arenaChoice;
-     if (arenaChoice == "STOMP") {
-     
-     } else {
-     
-     }
      */
     
     
@@ -34,10 +26,6 @@ void PrintHelper::printIntro(stringstream & ss) {
 }
 
 
-
-/*
-|*Horse____# 012/123| Elephant   123/123| Aardvark__ 233/300| Echidna    234/345
-*/
 void PrintHelper::printTeamStatus(Creature creatures[], int currCreatureIndex, stringstream& ss) {
 
 	if (currCreatureIndex == 0)
@@ -63,6 +51,7 @@ void PrintHelper::printTeamStatus(Creature creatures[], int currCreatureIndex, s
     ss << "  |\n";
 }
 
+
 void PrintHelper::printSingleCreature(Creature& c, bool current, stringstream& ss) {
 	ss << "|";
 	if ( current ) {
@@ -72,13 +61,17 @@ void PrintHelper::printSingleCreature(Creature& c, bool current, stringstream& s
 	}
     // 10 char wide for name, filled with spaces by c.getTypeName()
     ss << c.getTypeName(10);
-//	for (int i = (int) name.length(); i < 10; ++i)
-//	{
-//		ss << " ";
-//	}
+
 	// space, then current/max health
 	ss << " " << c.getHealthCurr() << "/" << CreatureType::TYPES[c.getType()].getHealthMaxBase() << " ";
 }
+
+
+void PrintHelper::printError(stringstream& ss) {
+    ss << "ERROR: INVALID MOVE" << endl;
+    ss << "You lost your turn." << endl;
+}
+
 
 void PrintHelper::printOptions(stringstream & ss){
     ss << "During battle, choose from the following for each move:" << endl;
@@ -87,6 +80,7 @@ void PrintHelper::printOptions(stringstream & ss){
     ss << "'r' to rest and regain a little health\n";
     ss << "      Creature in your party who are inactive rest every turn.\n\n";
 }
+
 
 void PrintHelper::printEnd(int count, stringstream & ss) {
     ss << "\nSadly, your entire party of creatures has fallen in battle.\n";
@@ -99,7 +93,6 @@ void PrintHelper::printEnd(int count, stringstream & ss) {
 }
 
 
-
 void PrintHelper::printPlayerAttack(Creature &attacker, string &receiverName, stringstream & ss){
     string attackerName = CreatureType::CREATURE_NAMES[attacker.getType()];
     CreatureType attackerType = CreatureType::TYPES[attacker.getType()];
@@ -110,11 +103,15 @@ void PrintHelper::printPlayerAttack(Creature &attacker, string &receiverName, st
 }
 
 
+void PrintHelper::printWinCount(int count, stringstream & ss){
+    ss << "Current win count: " << count << '\n';
+}
+
+
 void PrintHelper::printHR(stringstream& ss) {
     ss << "----------------------------------------";
     ss << "----------------------------------------\n";
 }
-
 
 
 void PrintHelper::printHRL(stringstream& ss) {

@@ -16,7 +16,20 @@ using namespace std;
 
 class Trainer {
 public:
+    /**
+     * Requires: Nothing.
+     * Modifies: Nothing.
+     * Effects:  returns 'a' or 's#' given the situation.
+                 This is where the bulk of your code will go. The implementation
+                 of your AI goes here.
+     */
     string makeMove(stringstream& situation);
+
+    /**
+     * Requires: Nothing.
+     * Modifies: Nothing.
+     * Effects:  Prints out the final situation
+     */
     void finalSituation(stringstream& situation);
     
 private:

@@ -6,27 +6,26 @@
 #include "Party.h"
 using namespace std;
 
-void runBattle(Trainer &player1, Party &party, stringstream& ss);
+/**
+ * Requires: Nothing.
+ * Modifies: Nothing.
+ * Effects:  runs a battle given the trainer, their party, the current
+             situation, and the trainer's current win count
+ */
+void runBattle(Trainer &player1, Party &party, stringstream& ss, int winCount);
 
-void printError(stringstream& ss);
-
-
-//we would do this if we want the format to be standardized
-void printSpaces(int numSpaces);
-
-/*
-Horse_____ attacks enemy Elephant__ with Fire____ for 3__ damage and it faints.
-Horse attacks enemy Elephant with Fire for 32 damage.
-Enemy Elephant attacks Horse with Ice for 16 damage.
-*/
-void doPlayerAttack(Creature& enemy);
-void printPlayerAttack(Creature &attacker, string &receiverName);
-
-//situation
-string starterSituation(Creature& enemy);
-string updateSituation(Creature& enemy);
-
-
+/**
+ * Requires: Nothing.
+ * Modifies: defender, ss
+ * Effects:  Applies damage to defender, prints out messages
+             about which creature attacks, what element they use,
+             and how much damage they do
+ */
 void creatureAttack(Creature& attacker, Creature& defender, bool isPlayer, stringstream& ss);
 
+/**
+ * Requires: Nothing.
+ * Modifies: rester, ss
+ * Effects:  Increases rester's health, prints message
+ */
 void creatureRest(Creature& rester, bool isPlayer, stringstream& ss);

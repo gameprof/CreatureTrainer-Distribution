@@ -13,10 +13,12 @@
 
 string Trainer::makeMove(stringstream& situation) {
     
-    cout << situation.str(); // Output for human player
-    // Instead of doing this, you will need to replace the code of Trainer to parse the input situation and create a proper response (like "a" for attack or "s3" to swap to the creature in slot 3).
+    // Output for human player
+    // Instead of doing this, you will need to replace the code of Trainer 
+    // to parse the input situation and create a proper response,
+    // (like "a" for attack or "s3" to swap to the creature in slot 3).
+    cout << situation.str(); 
     
-    string response;
 
     /* 
      * This line is basically what your AI chooses to do
@@ -25,6 +27,7 @@ string Trainer::makeMove(stringstream& situation) {
      * comment out "cin >> response" and instead have this function
      * generate a response string.
      */
+    string response;
     cin >> response; 
 
     return response;
